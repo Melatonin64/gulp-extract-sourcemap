@@ -18,7 +18,7 @@ function extract(opts){
             var src = file.contents.toString('utf8');
             var sMapFileName = opts.sourceMappingFileName ? path.basename(opts.sourceMappingFileName) : ( path.basename(file.path) + '.map' );
 
-            var pos = src.search(/\/[\/\*][#@]\s+sourceMappingURL=data:application\/json;(?:charset:utf-8;)?base64,/i);
+            var pos = src.search(/\/[\/\*][#@]\s+sourceMappingURL=data:application\/json;(?:charset[:=]utf-?8;)?base64,/i);
 
             if (~pos) {
                 try {
@@ -56,7 +56,7 @@ function extract(opts){
                 this.push(new File({
                     cwd: file.cwd,
                     base: file.base,
-                    path: path.join(file.base, sMapFileName),
+                    path: path.join(path.dirname(file.path), sMapFileName),
                     contents: new Buffer( JSON.stringify( sMap ) )
                 }));
 
